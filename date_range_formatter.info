@@ -1,0 +1,5 @@
+name = Date range formatter
+description = Formats date ranges.
+dependencies[] = date
+package = Date/Time
+core = 7.x

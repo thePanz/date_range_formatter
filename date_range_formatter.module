@@ -10,6 +10,7 @@ function date_range_formatter_field_formatter_info() {
       'field types' => array('date', 'datestamp', 'datetime'),
       'settings' => array(
         'single' => 'd F Y',
+        'one_day' => 'd F Y',
         'one_month' => 'd - {d} F Y',
         'several_months' => 'd F - {d} {F} Y',
         'several_years' => 'd F Y - {d} {F} {Y}',
@@ -35,6 +36,11 @@ function date_range_formatter_field_formatter_settings_form($field, $instance, $
         '#type' => 'textfield',
         '#title' => t('Date format for single date'),
         '#default_value' => $settings['single'],
+      );
+      $form['one_day'] = array(
+        '#type' => 'textfield',
+        '#title' => t('ate format for the single day date range'),
+        '#default_value' => $settings['one_day'],
       );
       $form['one_month'] = array(
         '#type' => 'textfield',
@@ -73,9 +79,10 @@ function date_range_formatter_field_formatter_settings_summary($field, $instance
 
   switch ($formatter) {
     case 'date_range_without_time':
-      $summary = t('Display date range using formats: @single, @one_month, @several_months, @several_years',
+      $summary = t('Display date range using formats: @single, @one_day, @one_month, @several_months, @several_years',
         array(
           '@single' => $settings['single'],
+          '@one_day' => $settings['one_day'],
           '@one_month' => $settings['one_month'],
           '@several_months' => $settings['several_months'],
           '@several_years' => $settings['several_years'],
@@ -112,6 +119,9 @@ function date_range_formatter_field_formatter_view($entity_type, $entity, $field
           }
           if (date('m.Y', $date1) === date('m.Y', $date2)) {
             $format = $settings['one_month'];
+          }
+          if (date('d.m.Y', $date1) === date('d.m.Y', $date2)) {
+            $format = $settings['one_day'];
           }
 
           $date_str = format_date($date1, 'custom', preg_replace('/\{([a-zA-Z])\}/', '{\\\$1}', $format));

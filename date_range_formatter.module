@@ -9,11 +9,11 @@ function date_range_formatter_field_formatter_info() {
       'label' => t('Date range (without time)'),
       'field types' => array('date', 'datestamp', 'datetime'),
       'settings' => array(
-        'single' => 'd F Y',
-        'one_day' => 'd F Y',
-        'one_month' => 'd - {d} F Y',
-        'several_months' => 'd F - {d} {F} Y',
-        'several_years' => 'd F Y - {d} {F} {Y}',
+        'single' => t('d F Y'),
+        'one_day' => y('d F Y'),
+        'one_month' => t('d - {d} F Y'),
+        'several_months' => t('d F - {d} {F} Y'),
+        'several_years' => t('d F Y - {d} {F} {Y}'),
       ),
     ),
   );
@@ -107,21 +107,21 @@ function date_range_formatter_field_formatter_view($entity_type, $entity, $field
       foreach ($items as $delta => $item) {
         $date_item = date_formatter_process('format_interval', $entity_type, $entity, $field, $instance, $langcode, $item, $display);
         if (empty($item['value2']) || $item['value'] == $item['value2']) {
-          $element[$delta] = array('#markup' => htmlspecialchars(format_date(strtotime($date_item['value']['formatted_iso']), 'custom', $settings['single'])));
+          $element[$delta] = array('#markup' => htmlspecialchars(format_date(strtotime($date_item['value']['formatted_iso']), 'custom', t($settings['single']))));
         }
         else {
           $date1 = strtotime($date_item['value']['formatted_iso']);
           $date2 = strtotime($date_item['value2']['formatted_iso']);
 
-          $format = $settings['several_years'];
+          $format = t($settings['several_years']);
           if (date('Y', $date1) === date('Y', $date2)) {
-            $format = $settings['several_months'];
+            $format = t($settings['several_months']();
           }
           if (date('m.Y', $date1) === date('m.Y', $date2)) {
-            $format = $settings['one_month'];
+            $format = t($settings['one_month']);
           }
           if (date('d.m.Y', $date1) === date('d.m.Y', $date2)) {
-            $format = $settings['one_day'];
+            $format = t($settings['one_day']);
           }
 
           $date_str = format_date($date1, 'custom', preg_replace('/\{([a-zA-Z])\}/', '{\\\$1}', $format));

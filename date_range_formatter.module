@@ -121,7 +121,7 @@ function date_range_formatter_field_formatter_view($entity_type, $entity, $field
             $format = t($settings['one_month']);
           }
           else if (date('Y', $date1) === date('Y', $date2)) {
-            $format = t($settings['several_months']();
+            $format = t($settings['several_months']);
           }
 
           $date_str = format_date($date1, 'custom', preg_replace('/\{([a-zA-Z])\}/', '{\\\$1}', $format));

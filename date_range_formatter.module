@@ -114,14 +114,14 @@ function date_range_formatter_field_formatter_view($entity_type, $entity, $field
           $date2 = strtotime($date_item['value2']['formatted_iso']);
 
           $format = t($settings['several_years']);
-          if (date('Y', $date1) === date('Y', $date2)) {
-            $format = t($settings['several_months']();
-          }
-          if (date('m.Y', $date1) === date('m.Y', $date2)) {
-            $format = t($settings['one_month']);
-          }
           if (date('d.m.Y', $date1) === date('d.m.Y', $date2)) {
             $format = t($settings['one_day']);
+          }
+          else if (date('m.Y', $date1) === date('m.Y', $date2)) {
+            $format = t($settings['one_month']);
+          }
+          else if (date('Y', $date1) === date('Y', $date2)) {
+            $format = t($settings['several_months']();
           }
 
           $date_str = format_date($date1, 'custom', preg_replace('/\{([a-zA-Z])\}/', '{\\\$1}', $format));
